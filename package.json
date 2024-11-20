@@ -1,16 +1,19 @@
 {
-  "name": "auth-service",
-  "version": "1.0.0",
-  "description": "The user management service",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node src/server.ts"
-  },
-  "author": "sohan.kinage99@gmail.com",
-  "license": "ISC",
-  "devDependencies": {
-    "@types/node": "^22.9.1",
-    "typescript": "^5.6.3"
-  }
+    "name": "auth-service",
+    "version": "1.0.0",
+    "description": "The user management service",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "dev": "node src/server.ts",
+        "format:fix": "prettier . --write",
+        "format:check": "prettier . --check"
+    },
+    "author": "sohan.kinage99@gmail.com",
+    "license": "ISC",
+    "devDependencies": {
+        "@types/node": "^22.9.1",
+        "prettier": "3.3.3",
+        "typescript": "^5.6.3"
+    }
 }
