@@ -5,9 +5,10 @@ export default tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
   {
-    ignores:['dist','node_modules','eslint.config.njs'],
+    ignores:['dist','node_modules'],
     languageOptions:{
         parserOptions: {
+            project: "./tsconfig.json",
             projectService: true,
             tsconfigRootDir: import.meta.dirname,
         }
