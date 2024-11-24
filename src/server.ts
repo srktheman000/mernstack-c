@@ -1,9 +1,15 @@
-function welcome(name: string) {
-    const user = {
-        name: 'sohan',
+import { Config } from './config'
+
+import app from './app'
+
+const startServer = () => {
+    const PORT = Config.PORT
+    try {
+        app.listen(PORT, () => console.log(`Listening On PORT ${PORT}`))
+    } catch (err) {
+        console.error(err)
+        process.exit()
     }
-    const userName = user.name
-    console.log('welcome' + userName)
 }
 
-welcome('sohan')
+startServer()

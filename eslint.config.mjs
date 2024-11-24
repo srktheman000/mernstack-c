@@ -20,8 +20,7 @@ export default [
             '@typescript-eslint': tseslintPlugin,
         },
         rules: {
-            'no-console': 'warn',
-            'dot-notation': 'error',
+            'dot-notation': 'error'
         },
         settings: {},
         files: ['**/*.ts', '**/*.tsx'], // Ensure this applies only to TypeScript files
