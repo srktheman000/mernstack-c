@@ -1,8 +1,6 @@
 import winston from 'winston'
 import { Config } from '.'
 
-const { combine, timestamp, json } = winston.format
-
 const logger = winston.createLogger({
     level: 'info',
     defaultMeta: { serviceName: 'auth-service' },
