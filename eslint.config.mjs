@@ -10,7 +10,7 @@ export default [
         languageOptions: {
             parser: tsParser,
             parserOptions: {
-                project: './tsconfig.json', 
+                project: './tsconfig.json',
                 tsconfigRootDir: process.cwd(),
                 sourceType: 'module',
                 ecmaVersion: 2020,
@@ -21,9 +21,9 @@ export default [
         },
         rules: {
             'dot-notation': 'error',
-             "no-unused-vars": "warn"
+            'no-unused-vars': 'warn',
         },
         settings: {},
         files: ['**/*.ts', '**/*.tsx'], // Ensure this applies only to TypeScript files
-    }
+    },
 ]
