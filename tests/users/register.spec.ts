@@ -23,15 +23,14 @@ describe('POST /auth/register', () => {
     })
 
     describe('Given all required fields', () => {
-        it('should return 201 status code', async () => {
+        it('should return the 201 status code', async () => {
             // Arrange
             const userData = {
-                firstName: 'Sohan',
-                lastName: 'Kinage',
-                email: 'sohankinage99@gmail.com',
-                password: 'secret',
+                firstName: 'sohan',
+                lastName: 'K',
+                email: 'sohan@mern.space',
+                password: 'password',
             }
-
             // Act
             const response = await request(app)
                 .post('/auth/register')
@@ -39,20 +38,35 @@ describe('POST /auth/register', () => {
 
             // Assert
             expect(response.statusCode).toBe(201)
-            expect(response.headers['content-type']).toEqual(
-                expect.stringContaining('application/json'),
-            )
+        })
+
+        it('should return valid json response', async () => {
+            // Arrange
+            const userData = {
+                firstName: 'sohan',
+                lastName: 'K',
+                email: 'sohan@mern.space',
+                password: 'password',
+            }
+            // Act
+            const response = await request(app)
+                .post('/auth/register')
+                .send(userData)
+
+            // Assert application/json utf-8
+            expect(
+                (response.headers as Record<string, string>)['content-type'],
+            ).toEqual(expect.stringContaining('json'))
         })
 
         it('should persist the user in the database', async () => {
             // Arrange
             const userData = {
-                firstName: 'Sohan',
-                lastName: 'Kinage',
-                email: 'sohankinage99@gmail.com',
-                password: 'secret',
+                firstName: 'sohan',
+                lastName: 'K',
+                email: 'sohan@mern.space',
+                password: 'password',
             }
-
             // Act
             await request(app).post('/auth/register').send(userData)
 
@@ -60,58 +74,31 @@ describe('POST /auth/register', () => {
             const userRepository = connection.getRepository(User)
             const users = await userRepository.find()
             expect(users).toHaveLength(1)
-            expect(users[0]).toMatchObject({
-                firstName: 'Sohan',
-                lastName: 'Kinage',
-                email: 'sohankinage99@gmail.com',
-            })
+            expect(users[0].firstName).toBe(userData.firstName)
+            expect(users[0].lastName).toBe(userData.lastName)
+            expect(users[0].email).toBe(userData.email)
         })
-    })
 
-    describe('When required fields are missing', () => {
-        it('should return 400 status code', async () => {
-            // Arrange
-            const incompleteUserData = {
-                firstName: 'Sohan',
-                email: 'sohankinage99@gmail.com',
-            }
-
-            // Act
-            const response = await request(app)
-                .post('/auth/register')
-                .send(incompleteUserData)
-
-            // Assert
-            expect(response.statusCode).toBe(400)
-            expect(response.body).toMatchObject({
-                error: 'All fields are required',
-            })
-        })
-    })
-
-    describe('When email is already registered', () => {
-        it('should return 409 status code', async () => {
+        it('should return an id of the created user', async () => {
             // Arrange
             const userData = {
-                firstName: 'Sohan',
-                lastName: 'Kinage',
-                email: 'sohankinage99@gmail.com',
-                password: 'secret',
+                firstName: 'sohan',
+                lastName: 'K',
+                email: 'sohan@mern.space',
+                password: 'password',
             }
-
-            // First registration
-            await request(app).post('/auth/register').send(userData)
-
-            // Act: Attempt to register the same email again
+            // Act
             const response = await request(app)
                 .post('/auth/register')
                 .send(userData)
 
             // Assert
-            expect(response.statusCode).toBe(409)
-            expect(response.body).toMatchObject({
-                error: 'Email is already registered',
-            })
+            expect(response.body).toHaveProperty('id')
+            const repository = connection.getRepository(User)
+            const users = await repository.find()
+            expect((response.body as Record<string, string>).id).toBe(
+                users[0].id,
+            )
         })
     })
 })

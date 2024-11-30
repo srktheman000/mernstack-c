@@ -1,11 +1,11 @@
 import 'reflect-metadata'
 
-import express, { Response, Request, NextFunction } from 'express'
+import express, { Response, Request, NextFunction, Express } from 'express'
 import logger from './config/logger'
 import { HttpError } from 'http-errors'
 import { authRouter } from './routes'
 
-const app = express()
+const app: Express = express()
 
 app.use(express.json())
 
