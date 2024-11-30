@@ -1,7 +1,27 @@
 import app from '../../src/app'
 import request from 'supertest'
+import { User } from '../../src/entity/User'
+import { DataSource } from 'typeorm'
+import { AppDataSource } from '../../src/config/data-source'
+import { truncateTables } from '../utils/index'
 
 describe('POST /auth/register', () => {
+    let connection: DataSource
+
+    beforeAll(async () => {
+        connection = await AppDataSource.initialize()
+    })
+
+    beforeEach(async () => {
+        // Truncate all tables before each test
+        await truncateTables(connection)
+    })
+
+    afterAll(async () => {
+        // Ensure the connection is properly closed
+        await connection.destroy()
+    })
+
     describe('Given all required fields', () => {
         it('should return 201 status code', async () => {
             // Arrange
@@ -19,15 +39,36 @@ describe('POST /auth/register', () => {
 
             // Assert
             expect(response.statusCode).toBe(201)
-
-            //Asset application/json utf-8
             expect(response.headers['content-type']).toEqual(
-                expect.stringContaining('json'),
+                expect.stringContaining('application/json'),
             )
+        })
+
+        it('should persist the user in the database', async () => {
+            // Arrange
+            const userData = {
+                firstName: 'Sohan',
+                lastName: 'Kinage',
+                email: 'sohankinage99@gmail.com',
+                password: 'secret',
+            }
+
+            // Act
+            await request(app).post('/auth/register').send(userData)
+
+            // Assert
+            const userRepository = connection.getRepository(User)
+            const users = await userRepository.find()
+            expect(users).toHaveLength(1)
+            expect(users[0]).toMatchObject({
+                firstName: 'Sohan',
+                lastName: 'Kinage',
+                email: 'sohankinage99@gmail.com',
+            })
         })
     })
 
-    describe.skip('When required fields are missing', () => {
+    describe('When required fields are missing', () => {
         it('should return 400 status code', async () => {
             // Arrange
             const incompleteUserData = {
@@ -48,7 +89,7 @@ describe('POST /auth/register', () => {
         })
     })
 
-    describe.skip('When email is already registered', () => {
+    describe('When email is already registered', () => {
         it('should return 409 status code', async () => {
             // Arrange
             const userData = {
@@ -58,7 +99,10 @@ describe('POST /auth/register', () => {
                 password: 'secret',
             }
 
-            // Act
+            // First registration
+            await request(app).post('/auth/register').send(userData)
+
+            // Act: Attempt to register the same email again
             const response = await request(app)
                 .post('/auth/register')
                 .send(userData)
