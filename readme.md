@@ -14,7 +14,7 @@ This repository contains the **Authentication Service** built using Node.js. Bel
 Run the following command to start the authentication service in development mode:
 
 ```bash
-docker run --rm -it -v ${PWD}:/usr/src/app -v /usr/src/app/node_modules --env-file ${PWD}/.env /-p 5501:5501  -e NODE_ENV=development  auth-service:dev
+docker run --rm -it -v ${PWD}:/usr/src/app -v /usr/src/app/node_modules --env-file ${PWD}/.env /-p 5501:5501  -e NODE_ENV=dev  auth-service:dev
 ```
 
 ```bash
