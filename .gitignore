@@ -6,7 +6,7 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 .pnpm-debug.log*
-
+launch.json
 certs
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
@@ -26,7 +26,8 @@ coverage
 *.lcov
 
 # nyc test coverage
-.nyc_output
+.nyc_output0.
+
 
 # Grunt intermediate storage (https://gruntjs.com/creating-plugins#storing-task-files)
 .grunt

@@ -1,2 +1,5 @@
 export { default as loginValidator } from './login-validator'
 export { default as registerValidator } from './register-validator'
+export { default as createUserValidator } from './create-user-validator'
+export { default as listUsersValidator } from './list-users-validator'
+export { default as updateUserValidator } from './update-user-validator'

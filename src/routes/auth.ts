@@ -1,4 +1,9 @@
-import express, { Request, Response, NextFunction } from 'express'
+import express, {
+    Request,
+    Response,
+    NextFunction,
+    RequestHandler,
+} from 'express'
 import { AuthController } from '../controllers/AuthController'
 import { AppDataSource } from '../config/data-source'
 import { User } from '../entity/User'
@@ -6,6 +11,8 @@ import logger from '../config/logger'
 import { CredentialService, TokenService, UserService } from '../services'
 import { RefreshToken } from '../entity/RefreshToken'
 import { loginValidator, registerValidator } from '../validators'
+import authenticate from '../middlewares/authenticate'
+import { AuthRequest } from '../types'
 
 const router = express.Router()
 
@@ -39,4 +46,10 @@ router.post(
     },
 )
 
+router.get(
+    '/self',
+    authenticate as RequestHandler,
+    (req: Request, res: Response) =>
+        authController.self(req as AuthRequest, res),
+)
 export default router
