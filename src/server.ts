@@ -10,8 +10,8 @@ const startServer = async () => {
         await AppDataSource.initialize()
         logger.info('Database Connected Successfully')
         app.listen(PORT, () => logger.info('Listening On port', { port: PORT }))
-    } catch (err) {
-        console.error(err)
+    } catch (err: any) {
+        logger.error(err.message)
         process.exit()
     }
 }

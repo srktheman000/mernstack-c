@@ -24,6 +24,6 @@ export default [
             'no-unused-vars': 'warn',
         },
         settings: {},
-        files: ['**/*.ts', '**/*.tsx'], // Ensure this applies only to TypeScript files
+        files: ['**/*.ts', '**/*.tsx'], // Ensure this applies only to TypeScript files,
     },
 ]
